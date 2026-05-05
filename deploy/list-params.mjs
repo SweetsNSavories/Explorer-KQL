@@ -1,0 +1,10 @@
+import fetch from "node-fetch";
+import fs from "fs";
+const cache=JSON.parse(fs.readFileSync('.token-cache.json','utf8'));
+const at=Object.values(cache.AccessToken)[0];
+const tok=at.secret;
+const url='https://orgd90897e4.crm.dynamics.com/api/data/v9.2/customapirequestparameters?$select=name,uniquename,type,isoptional&$expand=CustomAPIId($select=uniquename)';
+const r=await fetch(url,{headers:{Authorization:'Bearer '+tok,Accept:'application/json'}});
+const txt=await r.text();
+console.log("STATUS",r.status);
+console.log("BODY",txt.slice(0,2000));

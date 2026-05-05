@@ -1,0 +1,10 @@
+﻿import fetch from "node-fetch";
+import fs from "fs";
+const tok = Object.values(JSON.parse(fs.readFileSync('.token-cache.json','utf8'))['AccessToken'])[0].secret;
+const ORG = "https://orgd90897e4.crm.dynamics.com";
+const SOL = "60d1fecb-6c27-4757-9bed-70dcda4c5e94";
+const r = await fetch(ORG + `/api/data/v9.2/solutioncomponents?$select=componenttype,objectid,rootcomponentbehavior&$filter=_solutionid_value eq ${SOL}&$top=200`, {headers:{Authorization:'Bearer '+tok}});
+const j = await r.json();
+const TYPE = {1:"Entity",2:"Attribute",10:"OptionSet",20:"SecurityRole",60:"SystemForm",61:"WebResource",66:"CustomControl",80:"App",91:"PluginAssembly",90:"PluginType",92:"SDKMessageProcessingStep",380:"EnvVarDef",381:"EnvVarValue",10027:"CustomAPI",10028:"CustomAPIReqParam",10029:"CustomAPIRespProp"};
+console.log("count =", j.value.length);
+for (const c of j.value) console.log(`  ${TYPE[c.componenttype]||c.componenttype}\t${c.objectid}\trcb=${c.rootcomponentbehavior}`);

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="vip" constructor="KustoExplorer" version="0.6.0"
+           display-name-key="KustoExplorer_Display_Key"
+           description-key="KustoExplorer_Desc_Key"
+           control-type="virtual">
+    <external-service-usage enabled="false">
+    </external-service-usage>
+
+    <!-- Bound text field that holds the KQL query text. -->
+    <property name="query"
+              display-name-key="Query_Display_Key"
+              description-key="Query_Desc_Key"
+              of-type="Multiple"
+              usage="bound"
+              required="false" />
+
+    <!-- Optional default time-range placeholders forwarded to the custom API. -->
+    <property name="startTime"
+              display-name-key="StartTime_Display_Key"
+              description-key="StartTime_Desc_Key"
+              of-type="SingleLine.Text"
+              usage="input"
+              required="false" />
+    <property name="endTime"
+              display-name-key="EndTime_Display_Key"
+              description-key="EndTime_Desc_Key"
+              of-type="SingleLine.Text"
+              usage="input"
+              required="false" />
+
+    <!-- Custom API logical name (defaults to vip_azuremonitorquery). -->
+    <property name="customApiName"
+              display-name-key="CustomApiName_Display_Key"
+              description-key="CustomApiName_Desc_Key"
+              of-type="SingleLine.Text"
+              usage="input"
+              required="false" />
+
+    <!-- Last result JSON (read-back, for downstream automation). -->
+    <property name="resultJson"
+              display-name-key="ResultJson_Display_Key"
+              description-key="ResultJson_Desc_Key"
+              of-type="Multiple"
+              usage="output"
+              required="false" />
+
+    <resources>
+      <code path="index.ts" order="1"/>
+      <css path="css/KustoExplorer.css" order="1" />
+      <platform-library name="React" version="16.14.0" />
+    </resources>
+
+    <feature-usage>
+      <uses-feature name="WebAPI" required="true" />
+      <uses-feature name="Utility" required="true" />
+    </feature-usage>
+  </control>
+</manifest>

@@ -1,0 +1,35 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConversationDiagnostics", "ConversationDiagnostics", "{B1B3268A-5BC2-F6C4-F641-4C8D5FF74594}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "decompiled", "decompiled", "{D5503EC4-3AEC-133A-57DF-9660B526CE0B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LogsQueryClientPlugin_src", "LogsQueryClientPlugin_src", "{17075FDB-BBA9-F3A0-42B9-5A0CC9A6D598}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogsQueryClientPlugin", "ConversationDiagnostics\decompiled\LogsQueryClientPlugin_src\LogsQueryClientPlugin.csproj", "{811FA0FB-81BF-BAAA-8453-B1B69FBD7DBA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{811FA0FB-81BF-BAAA-8453-B1B69FBD7DBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{811FA0FB-81BF-BAAA-8453-B1B69FBD7DBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{811FA0FB-81BF-BAAA-8453-B1B69FBD7DBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{811FA0FB-81BF-BAAA-8453-B1B69FBD7DBA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D5503EC4-3AEC-133A-57DF-9660B526CE0B} = {B1B3268A-5BC2-F6C4-F641-4C8D5FF74594}
+		{17075FDB-BBA9-F3A0-42B9-5A0CC9A6D598} = {D5503EC4-3AEC-133A-57DF-9660B526CE0B}
+		{811FA0FB-81BF-BAAA-8453-B1B69FBD7DBA} = {17075FDB-BBA9-F3A0-42B9-5A0CC9A6D598}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {16213DF8-2537-42FE-8AA4-DFEC249515E2}
+	EndGlobalSection
+EndGlobal

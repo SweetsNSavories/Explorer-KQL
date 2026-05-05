@@ -1,0 +1,17 @@
+﻿import fetch from "node-fetch";
+import fs from "fs";
+import { PublicClientApplication, LogLevel } from "@azure/msal-node";
+const TENANT="1557f771-4c8e-4dbd-8b80-dd00a88e833e", CLIENT_ID="51f81489-12ee-4a9e-aaae-a2591f45987d", ORG="https://orgd90897e4.crm.dynamics.com";
+const cachePlugin = { beforeCacheAccess: async(ctx)=>{ if(fs.existsSync('.token-cache.json')) ctx.tokenCache.deserialize(fs.readFileSync('.token-cache.json','utf8')); }, afterCacheAccess: async(ctx)=>{ if(ctx.cacheHasChanged) fs.writeFileSync('.token-cache.json', ctx.tokenCache.serialize()); } };
+const pca = new PublicClientApplication({ auth:{ clientId:CLIENT_ID, authority:`https://login.microsoftonline.com/${TENANT}`}, cache:{cachePlugin}, system:{loggerOptions:{logLevel:LogLevel.Error}}});
+const acc = (await pca.getTokenCache().getAllAccounts())[0];
+const r = await pca.acquireTokenSilent({account:acc, scopes:[`${ORG}/.default`]});
+const tok = r.accessToken;
+const H = {Authorization:'Bearer '+tok,'Content-Type':'application/json','OData-MaxVersion':'4.0','OData-Version':'4.0','Accept':'application/json'};
+const f = await fetch(`${ORG}/api/data/v9.2/systemforms(69c22e59-1888-4d06-9afb-4d301a3a5d2f)?$select=formid,name,objecttypecode,modifiedon,formxml`,{headers:H}).then(r=>r.json());
+console.log('name:', f.name, 'modified:', f.modifiedon, 'xmlLen:', f.formxml?.length);
+const p = await fetch(`${ORG}/api/data/v9.2/systemforms(69c22e59-1888-4d06-9afb-4d301a3a5d2f)`,{method:'PATCH',headers:H,body:JSON.stringify({formxml: f.formxml})});
+console.log('patch form:', p.status);
+const pubXml = `<importexportxml><entities><entity>systemuser</entity></entities></importexportxml>`;
+const pub = await fetch(`${ORG}/api/data/v9.2/PublishXml`,{method:'POST',headers:H,body:JSON.stringify({ParameterXml:pubXml})});
+console.log('publish:', pub.status);

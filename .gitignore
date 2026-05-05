@@ -1,0 +1,52 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+
+# Build outputs / generated
+out/
+build-out.txt
+
+# PCF generated
+KustoExplorerControl/out/
+KustoExplorerControl/node_modules/
+KustoExplorerControl/.pcfproj.user
+
+# Solution staging
+KustoExplorerSolution/bin/
+KustoExplorerSolution/obj/
+
+# Local secrets / tokens
+*.token-cache.json
+.token-cache.json
+*-token-cache.json
+.arm-token-cache.json
+.graph-token-cache.json
+deploy/.token-cache.json
+deploy/*token-cache.json
+deploy/*.local.*
+*.snk
+
+# Diagnostic scratch (decompiled binaries, unpacked zips)
+ConversationDiagnostics/decompiled/
+ConversationDiagnostics/unpacked/
+ConversationDiagnostics/zip/
+
+# Inspection scratch
+dist/inspect/
+dist/inspect2/
+
+# Exported solution zips contain plaintext env var VALUES (incl. client secret).
+# Never commit these; rebuild per environment with export-solution.mjs.
+dist/*.zip
+
+# Editor
+.vs/
+.vscode/
+*.swp
+.DS_Store

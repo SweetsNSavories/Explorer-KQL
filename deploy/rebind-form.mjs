@@ -1,0 +1,24 @@
+import fs from 'fs';
+import fetch from 'node-fetch';
+import { PublicClientApplication, LogLevel } from '@azure/msal-node';
+const TENANT='1557f771-4c8e-4dbd-8b80-dd00a88e833e', CLIENT_ID='51f81489-12ee-4a9e-aaae-a2591f45987d', ORG='https://orgd90897e4.crm.dynamics.com';
+const cachePlugin={beforeCacheAccess:async(c)=>{if(fs.existsSync('.token-cache.json'))c.tokenCache.deserialize(fs.readFileSync('.token-cache.json','utf8'))},afterCacheAccess:async(c)=>{if(c.cacheHasChanged)fs.writeFileSync('.token-cache.json',c.tokenCache.serialize())}};
+const pca=new PublicClientApplication({auth:{clientId:CLIENT_ID,authority:'https://login.microsoftonline.com/'+TENANT},cache:{cachePlugin},system:{loggerOptions:{logLevel:LogLevel.Error}}});
+const acc=(await pca.getTokenCache().getAllAccounts())[0];
+const tok=(await pca.acquireTokenSilent({account:acc,scopes:[ORG+'/.default']})).accessToken;
+const H={Authorization:'Bearer '+tok,'Content-Type':'application/json','OData-MaxVersion':'4.0','OData-Version':'4.0'};
+const formId='69c22e59-1888-4d06-9afb-4d301a3a5d2f';
+const r=await fetch(`${ORG}/api/data/v9.2/systemforms(${formId})?$select=name,formxml`,{headers:H});
+const j=await r.json();
+console.log('form name:', j.name, 'xml length:', j.formxml.length);
+const occurrences=(j.formxml.match(/cc_vip\.KustoExplorer/g)||[]).length;
+console.log('cc_vip.KustoExplorer occurrences in formxml:', occurrences);
+if(occurrences===0){console.log('nothing to do'); process.exit(0);}
+const newXml=j.formxml.split('cc_vip.KustoExplorer').join('vip_vip.KustoExplorer');
+fs.writeFileSync('formxml-backup.xml', j.formxml);
+fs.writeFileSync('formxml-new.xml', newXml);
+const u=await fetch(`${ORG}/api/data/v9.2/systemforms(${formId})`,{method:'PATCH',headers:H,body:JSON.stringify({formxml:newXml})});
+console.log('patch:', u.status, await u.text());
+const pubXml=`<importexportxml><systemforms><systemform>${formId}</systemform></systemforms></importexportxml>`;
+const p=await fetch(`${ORG}/api/data/v9.2/PublishXml`,{method:'POST',headers:H,body:JSON.stringify({ParameterXml:pubXml})});
+console.log('publish:', p.status, await p.text());

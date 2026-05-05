@@ -1,0 +1,16 @@
+import fetch from "node-fetch";
+import fs from "fs";
+import { PublicClientApplication, LogLevel } from "@azure/msal-node";
+const cachePlugin={beforeCacheAccess:async(c)=>{if(fs.existsSync('.token-cache.json'))c.tokenCache.deserialize(fs.readFileSync('.token-cache.json','utf8'));},afterCacheAccess:async()=>{}};
+const pca=new PublicClientApplication({auth:{clientId:'51f81489-12ee-4a9e-aaae-a2591f45987d',authority:'https://login.microsoftonline.com/1557f771-4c8e-4dbd-8b80-dd00a88e833e'},cache:{cachePlugin},system:{loggerOptions:{logLevel:LogLevel.Error}}});
+const acc=(await pca.getTokenCache().getAllAccounts())[0];
+const r=await pca.acquireTokenSilent({account:acc,scopes:['https://orgd90897e4.crm.dynamics.com/.default']});
+const H={Authorization:'Bearer '+r.accessToken,Accept:'application/json'};
+const ORG = 'https://orgd90897e4.crm.dynamics.com';
+const CAPI = '508876c2-7747-f111-bec7-7c1e521ab35c';
+const c = await fetch(`${ORG}/api/data/v9.2/customapis(${CAPI})`, { headers: H }).then(r=>r.json());
+console.log('CUSTOMAPI:', JSON.stringify(c, null, 2).slice(0, 2500));
+const reqs = await fetch(`${ORG}/api/data/v9.2/customapirequestparameters?$filter=_customapiid_value eq ${CAPI}`, { headers: H }).then(r=>r.json());
+console.log('\nREQ PARAMS:', JSON.stringify(reqs.value, null, 2));
+const resps = await fetch(`${ORG}/api/data/v9.2/customapiresponseproperties?$filter=_customapiid_value eq ${CAPI}`, { headers: H }).then(r=>r.json());
+console.log('\nRESP PROPS:', JSON.stringify(resps.value, null, 2));
