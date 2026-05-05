@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="vip_AppId">
+  <description default="App Insights app id (overrides default from env var)">
+    <label description="App Insights app id (overrides default from env var)" languagecode="1033" />
+  </description>
+  <displayname default="App Id">
+    <label description="App Id" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>vip_AppId</name>
+  <type>10</type>
+</customapirequestparameter>

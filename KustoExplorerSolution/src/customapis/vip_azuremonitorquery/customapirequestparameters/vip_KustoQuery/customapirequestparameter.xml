@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="vip_KustoQuery">
+  <description default="KQL query to execute">
+    <label description="KQL query to execute" languagecode="1033" />
+  </description>
+  <displayname default="KustoQuery">
+    <label description="KustoQuery" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>KustoQuery</name>
+  <type>10</type>
+</customapirequestparameter>

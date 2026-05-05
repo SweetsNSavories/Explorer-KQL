@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="vip__endTime">
+  <description default="EndTime (ISO 8601)">
+    <label description="EndTime (ISO 8601)" languagecode="1033" />
+  </description>
+  <displayname default="EndTime">
+    <label description="EndTime" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>_endTime</name>
+  <type>10</type>
+</customapirequestparameter>

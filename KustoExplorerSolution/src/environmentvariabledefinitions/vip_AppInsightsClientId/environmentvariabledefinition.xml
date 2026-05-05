@@ -1,0 +1,13 @@
+<environmentvariabledefinition schemaname="vip_AppInsightsClientId">
+  <description default="App Insights credential for Conversation Diagnostics plugin">
+    <label description="App Insights credential for Conversation Diagnostics plugin" languagecode="1033" />
+  </description>
+  <displayname default="App Insights Client ID">
+    <label description="App Insights Client ID" languagecode="1033" />
+  </displayname>
+  <introducedversion>1.0</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <secretstore>0</secretstore>
+  <type>100000000</type>
+</environmentvariabledefinition>

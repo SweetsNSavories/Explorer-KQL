@@ -83,4 +83,15 @@ if(ej2.ExportSolutionFile){
   console.log('wrote unmanaged bytes:', buf2.length);
   stripEnvVarValues(out2);
   console.log('  final size:', fs.statSync(out2).size, 'bytes');
+
+  // 6. Refresh the unpacked source tree at KustoExplorerSolution/src so the
+  //    GitHub repo shows what actually ships (form, role, plugin steps, custom
+  //    API, env var definitions, web resources, PCF bundle). Plain extract; we
+  //    are not invoking pac solution unpack because the post-strip re-zip is
+  //    lowercase and pac wants uppercase SOLUTION.XML.
+  const srcDir = '../KustoExplorerSolution/src';
+  fs.rmSync(srcDir, { recursive: true, force: true });
+  fs.mkdirSync(srcDir, { recursive: true });
+  execSync(`tar -xf "${out2}" -C "${srcDir}"`);
+  console.log('refreshed source tree at', srcDir);
 }

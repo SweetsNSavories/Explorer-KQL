@@ -1,0 +1,18 @@
+<customapi uniquename="vip_azuremonitorquery">
+  <allowedcustomprocessingsteptype>2</allowedcustomprocessingsteptype>
+  <bindingtype>0</bindingtype>
+  <description default="Run a KQL query against Application Insights / Azure Monitor.">
+    <label description="Run a KQL query against Application Insights / Azure Monitor." languagecode="1033" />
+  </description>
+  <displayname default="Azure Monitor Query">
+    <label description="Azure Monitor Query" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isfunction>0</isfunction>
+  <isprivate>0</isprivate>
+  <name>azuremonitorquery</name>
+  <plugintypeid>
+    <plugintypeexportkey>4c1943eb-3248-f111-bec6-6045bdd91664</plugintypeexportkey>
+  </plugintypeid>
+  <workflowsdkstepenabled>0</workflowsdkstepenabled>
+</customapi>

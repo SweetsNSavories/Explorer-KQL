@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="vip__startTime">
+  <description default="StartTime (ISO 8601)">
+    <label description="StartTime (ISO 8601)" languagecode="1033" />
+  </description>
+  <displayname default="StartTime">
+    <label description="StartTime" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>_startTime</name>
+  <type>10</type>
+</customapirequestparameter>
