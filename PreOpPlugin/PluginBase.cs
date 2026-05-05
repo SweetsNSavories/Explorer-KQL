@@ -1,8 +1,40 @@
 using System;
 using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.PluginTelemetry;
 
 namespace vip.AzureMonitor
 {
+    /// <summary>
+    /// Decorator that wraps the platform-supplied <see cref="ITracingService"/> and
+    /// forwards every Trace call to <see cref="ILogger"/> (Application Insights),
+    /// without requiring any change to existing plugin code.
+    ///
+    /// Pattern from: https://techcommunity.microsoft.com/blog/microsoftmissioncriticalblog/seamless-blend-of-ilogger-with-itracingservice-inside-d365-ce-plugins/4447276
+    ///
+    /// Per the post's "Final Thoughts": tracing the same message to BOTH sinks
+    /// doubles WorkerCommunication pressure when plugins emit large strings in
+    /// loops. We forward to both by default for parity with Plugin Trace Logs;
+    /// flip <see cref="DualSink"/> to false to send Application Insights only.
+    /// </summary>
+    internal sealed class LoggerTracingServiceDecorator : ITracingService
+    {
+        private readonly ITracingService _tracing;
+        private readonly ILogger _logger;
+        public bool DualSink { get; set; } = true;
+
+        public LoggerTracingServiceDecorator(ITracingService tracing, ILogger logger)
+        {
+            _tracing = tracing;
+            _logger = logger;
+        }
+
+        public void Trace(string format, params object[] args)
+        {
+            if (DualSink) _tracing?.Trace(format, args);
+            _logger?.LogInformation(format, args);
+        }
+    }
+
     public abstract class PluginBase : IPlugin
     {
         protected string UnsecureConfig { get; }
@@ -20,6 +52,7 @@ namespace vip.AzureMonitor
             public IServiceProvider ServiceProvider { get; }
             public IPluginExecutionContext PluginExecutionContext { get; }
             public ITracingService TracingService { get; }
+            public ILogger Logger { get; }
             public IOrganizationService InitiatingUserService { get; }
             public IOrganizationService SystemUserService { get; }
             public TokenService TokenService { get; }
@@ -28,7 +61,15 @@ namespace vip.AzureMonitor
             {
                 ServiceProvider = sp;
                 PluginExecutionContext = (IPluginExecutionContext)sp.GetService(typeof(IPluginExecutionContext));
-                TracingService = (ITracingService)sp.GetService(typeof(ITracingService));
+
+                // Wrap ITracingService with the ILogger decorator so every existing
+                // Trace(...) call also lands in Application Insights traces table.
+                var standardTracing = (ITracingService)sp.GetService(typeof(ITracingService));
+                Logger = (ILogger)sp.GetService(typeof(ILogger));
+                TracingService = Logger != null
+                    ? new LoggerTracingServiceDecorator(standardTracing, Logger)
+                    : standardTracing;
+
                 var f = (IOrganizationServiceFactory)sp.GetService(typeof(IOrganizationServiceFactory));
                 InitiatingUserService = f.CreateOrganizationService(PluginExecutionContext.InitiatingUserId);
                 SystemUserService     = f.CreateOrganizationService(null);
