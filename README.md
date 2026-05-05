@@ -199,4 +199,4 @@ Microsoft, Azure, Dynamics 365, Dataverse, Power Platform, Power Apps, Applicati
 
 ## License
 
-[MIT](LICENSE) © 2026 Praveen Kumar.
+[MIT](LICENSE) © 2026 Praveen Thonda.
