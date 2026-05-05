@@ -487,22 +487,25 @@ node export-solution.mjs       # writes dist\KustoExplorerSolution_*_managed.zip
 <h2 id="install">Install the solution</h2>
 
 <ol>
-  <li>Download <code>KustoExplorerSolution_1_0_1_managed.zip</code> (attached to this post).</li>
+  <li>Download <code>KustoExplorerSolution_1_0_3_managed.zip</code> (attached to this post or from <a href="https://github.com/SweetsNSavories/Explorer-KQL/releases">GitHub releases</a>).</li>
   <li>In <em>make.powerapps.com</em>, choose your environment, then <strong>Solutions &rarr; Import solution</strong> and upload the zip.</li>
   <li>Accept the consent prompts. The import will install:
     <ul>
-      <li>The <code>Explorer-KQL</code> custom control (<code>vip.KustoExplorer</code>).</li>
+      <li>The <code>Explorer-KQL</code> custom control (<code>vip_vip.KustoExplorer</code>).</li>
       <li>The <code>vip_azuremonitorquery</code> Custom API and its plugin assembly.</li>
-      <li>4 environment variable definitions (next section).</li>
-      <li>A sample form binding so you can verify the control end-to-end.</li>
+      <li>4 environment variable <strong>definitions</strong> (the import wizard will ask you for their values &mdash; see next section).</li>
+      <li>The <em>Kusto Explorer</em> form on <code>systemuser</code> and the <em>PPAC Kusto Reader</em> security role.</li>
     </ul>
   </li>
 </ol>
 
 <div class="callout">
-  After import, the control is ready to use anywhere a multi-line text column
-  exists. Open the classic form designer, add the field, then add the
-  <em>Explorer-KQL</em> control to it.
+  <strong>The shipped solution carries no environment-variable values.</strong>
+  Definitions ship; values do not. The maker-portal import wizard will prompt
+  you for each value before completing the import. If you skip them the
+  plugin will fail at runtime when it tries to read the secret &mdash; that is
+  the intended fail-fast behavior. No tenant&rsquo;s credentials are ever baked
+  into the published artifact.
 </div>
 
 <h2 id="configure">Configure environment variables</h2>
