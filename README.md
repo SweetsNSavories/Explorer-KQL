@@ -1,6 +1,6 @@
 # Explorer-KQL
 
-> **Disclaimer.** This is a personal, open-source project. It is **not a Microsoft product, not endorsed by Microsoft, and not supported through any Microsoft support channel.** I happen to work at Microsoft; this repository represents my own work, opinions, and experiments and does not reflect those of my employer. Use at your own risk under the terms of the [MIT License](LICENSE).
+> **Disclaimer.** This is a personal, open-source project. It is **not a Microsoft product, not endorsed by Microsoft, and not supported through any Microsoft support channel.** I happen to work at Microsoft; this repository represents my own work, opinions, and experiments and does not reflect those of my employer. The implementation follows generally recommended Microsoft best-practice guidance for Power Platform / Dataverse / Azure (least-privilege security roles, Secret-type environment variables, signed sandboxed plugins, public REST endpoints documented by Microsoft Learn) but no part of it is officially reviewed, certified, or endorsed by Microsoft. Use at your own risk under the terms of the [MIT License](LICENSE).
 
 An in-form **Application Insights / KQL query editor** for Dynamics 365 model-driven apps. A virtual PCF (React/TypeScript) control hosts a full Kusto editor — tabs, schema tree, saved queries, time pickers, grid / chart / JSON output, Excel export — directly inside the model-driven form. Azure credentials live once in a Dataverse-side service principal (held by a server-side plugin); end users never need direct Azure access.
 
