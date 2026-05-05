@@ -42,8 +42,11 @@ dist/inspect/
 dist/inspect2/
 
 # Exported solution zips contain plaintext env var VALUES (incl. client secret).
-# Never commit these; rebuild per environment with export-solution.mjs.
+# Never commit zips that include values; rebuild per environment with export-solution.mjs.
+# v1.0.3+ are verified secret-free (env var values stripped) and are tracked.
 dist/*.zip
+!dist/KustoExplorerSolution_1_0_3_managed.zip
+!dist/KustoExplorerSolution_1_0_3_unmanaged.zip
 
 # Editor
 .vs/
